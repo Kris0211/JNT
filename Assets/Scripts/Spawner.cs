@@ -40,7 +40,7 @@ public class Spawner : MonoBehaviour
     {
         BoundsInt tilemapBounds = tilemap.cellBounds;
 
-        Vector3 offset = new Vector3(playableAreaOffset, playableAreaOffset, 0);
+        Vector3 offset = new(playableAreaOffset, playableAreaOffset, 0);
         _playableAreaMin = tilemap.CellToWorld(tilemapBounds.min) + offset;
         _playableAreaMax = tilemap.CellToWorld(tilemapBounds.max) - offset;
     }

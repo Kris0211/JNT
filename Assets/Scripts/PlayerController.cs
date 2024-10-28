@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     {
         if (TryGetComponent<SpriteRenderer>(out var spriteRenderer))
         { 
-            Tween colorTween = spriteRenderer.DOColor(GetRandomColor(), colorChangeSpeed)
+            spriteRenderer.DOColor(GetRandomColor(), colorChangeSpeed)
                 .SetEase(Ease.Flash, colorFlashesCount);
         }
     }

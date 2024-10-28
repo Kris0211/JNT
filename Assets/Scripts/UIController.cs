@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,10 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
+    public event Action<Vector2> MovementRequested;
+    public event Action ColorChangeRequested;
+    public event Action PauseGameRequested;
+
     [Space(4)]
     [SerializeField]
     private Button _pauseButton;
@@ -23,11 +28,7 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private Button _rightButton;
 
-    [Header("Events")]
-    public UnityEvent<Vector2> movementRequested;
-    public UnityEvent colorChangeRequested;
-
-    void Awake()
+    void Start()
     {
         SetupDirectionalButton(_upButton, new Vector2(0, 1));
         SetupDirectionalButton(_downButton, new Vector2(0, -1));
@@ -36,8 +37,12 @@ public class UIController : MonoBehaviour
 
         if (_changeColorButton != null)
         {
-            _changeColorButton.onClick.AddListener(() => colorChangeRequested?.Invoke());
-        }        
+            _changeColorButton.onClick.AddListener(() => ColorChangeRequested?.Invoke());
+        }
+        if (_pauseButton != null)
+        {
+            _pauseButton.onClick.AddListener(() => PauseGameRequested?.Invoke());
+        }
     }
 
     private void SetupDirectionalButton(Button button, Vector2 dir)
@@ -55,7 +60,7 @@ public class UIController : MonoBehaviour
         {
             eventID = EventTriggerType.PointerDown
         };
-        pointerDownEntry.callback.AddListener(data => movementRequested?.Invoke(dir));
+        pointerDownEntry.callback.AddListener(data => MovementRequested?.Invoke(dir));
         eventTrigger.triggers.Add(pointerDownEntry);
 
         // On button UP - stop movement (reset direction to zero)
@@ -63,7 +68,7 @@ public class UIController : MonoBehaviour
         {
             eventID = EventTriggerType.PointerUp
         };
-        pointerUpEntry.callback.AddListener(data => movementRequested?.Invoke(Vector2.zero));
+        pointerUpEntry.callback.AddListener(data => MovementRequested?.Invoke(Vector2.zero));
         eventTrigger.triggers.Add(pointerUpEntry);
     }
 }

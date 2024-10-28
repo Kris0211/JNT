@@ -1,25 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public int requiredCoins = 5;
 
+    [Header("Object References")]
     [SerializeField]
     private PlayerController _player;
     [SerializeField]
     private Spawner _spawner;
     [SerializeField]
     private UIController _gameplayUI;
+    [SerializeField]
+    private PauseMenu _pauseMenu;
 
     private int _collectedCoins;
     private int _colorChangesRemaining;
 
     [Header("Events")]
-    public UnityEvent gameWon;
+    public UnityEvent gameEnded;
 
     void Awake()
     {
@@ -37,8 +42,14 @@ public class GameManager : MonoBehaviour
         _spawner.newObjectSpawned.AddListener(OnObjectSpawned);
 
         Assert.IsNotNull(_gameplayUI);
-        _gameplayUI.movementRequested.AddListener(OnMovementButtonPressed);
-        _gameplayUI.colorChangeRequested.AddListener(OnColorChanged);
+        _gameplayUI.MovementRequested += OnMovementButtonPressed;
+        _gameplayUI.ColorChangeRequested += OnColorChanged;
+        _gameplayUI.PauseGameRequested += OnGamePaused;
+
+        Assert.IsNotNull(_pauseMenu);
+        _pauseMenu.GameResumed += OnGameResumed;
+        _pauseMenu.GameRestarted += OnGameRestarted;
+        _pauseMenu.GameQuit += OnGameQuit;
     }
 
     public void OnObjectSpawned(GameObject obj)
@@ -56,7 +67,7 @@ public class GameManager : MonoBehaviour
 
         if (_collectedCoins >= requiredCoins)
         {
-            gameWon?.Invoke();
+            gameEnded?.Invoke();
         }
     }
 
@@ -76,5 +87,29 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("No changes remaining.");
         }
+    }
+
+    public void OnGamePaused()
+    {
+        _pauseMenu.gameObject.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
+    public void OnGameResumed()
+    {
+        _pauseMenu.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+    }
+
+    public void OnGameRestarted()
+    {
+        DOTween.KillAll();
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void OnGameQuit()
+    {
+        Application.Quit();
     }
 }

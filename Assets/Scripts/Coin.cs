@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Events;
 using UnityEngine.Assertions;
+using System;
 
 public class Coin : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class Coin : MonoBehaviour
 
     [Header("Animation")]
     public float duration = 1f;
-    
+
     private Tween _tween;
 
     void Awake()
