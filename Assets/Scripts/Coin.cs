@@ -14,6 +14,7 @@ public class Coin : MonoBehaviour
 
     [Header("Animation")]
     public float duration = 1f;
+    
     private Tween _tween;
 
     void Awake()
