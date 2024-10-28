@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
     {
         _collectedCoins++;
         _colorChangesRemaining++;
+        _gameplayUI.SetColorChangeEnabled(true);
 
         if (_collectedCoins >= requiredCoins)
         {
@@ -83,9 +84,9 @@ public class GameManager : MonoBehaviour
             _player.ChangeColor();
             _colorChangesRemaining--;
         }
-        else
+        if (_colorChangesRemaining == 0)
         {
-            Debug.Log("No changes remaining.");
+            _gameplayUI.SetColorChangeEnabled(false);
         }
     }
 
@@ -110,6 +111,7 @@ public class GameManager : MonoBehaviour
 
     public void OnGameQuit()
     {
-        Application.Quit();
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
     }
 }

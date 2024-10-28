@@ -9,6 +9,7 @@ public class Spawner : MonoBehaviour
 {
     [Space(8)]
     public float spawnDelay = 3f;
+    public bool shouldSpawnObjects = true;
     
     [Header("Spawnable Object")]
     public GameObject objectToSpawn;
@@ -28,7 +29,7 @@ public class Spawner : MonoBehaviour
     IEnumerator Start()
     {
         CalculatePlayableArea();
-        while (true) 
+        while(shouldSpawnObjects) 
         {
             GameObject spawnedObject = SpawnObject();
             newObjectSpawned?.Invoke(spawnedObject);

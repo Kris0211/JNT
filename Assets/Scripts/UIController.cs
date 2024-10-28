@@ -28,7 +28,7 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private Button _rightButton;
 
-    void Start()
+    void Awake()
     {
         SetupDirectionalButton(_upButton, new Vector2(0, 1));
         SetupDirectionalButton(_downButton, new Vector2(0, -1));
@@ -70,5 +70,10 @@ public class UIController : MonoBehaviour
         };
         pointerUpEntry.callback.AddListener(data => MovementRequested?.Invoke(Vector2.zero));
         eventTrigger.triggers.Add(pointerUpEntry);
+    }
+
+    public void SetColorChangeEnabled(bool bEnabled)
+    {
+        _changeColorButton.interactable = bEnabled;
     }
 }
