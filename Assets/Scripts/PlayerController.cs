@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
         {
             _rb = GetComponent<Rigidbody2D>();
         }
-        Assert.IsNotNull(_rb);
+        Assert.IsNotNull(_rb); // Make sure the component is a part of our Player GameObject.
     }
 
     void Update()
