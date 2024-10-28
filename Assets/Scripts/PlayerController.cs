@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 4.0f;
     public float colorChangeSpeed = 0.5f;
-    public float colorFlashesCount = 4;
+    public float colorFlashesCount = 3;
 
     [SerializeField]
     private Rigidbody2D _rb;
@@ -34,19 +34,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Move(Vector2 dir)
+    {
+        _rb.velocity = dir.normalized * moveSpeed;
+    }
+
     public void ChangeColor()
     {
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null)
+        if (TryGetComponent<SpriteRenderer>(out var spriteRenderer))
         { 
             Tween colorTween = spriteRenderer.DOColor(GetRandomColor(), colorChangeSpeed)
                 .SetEase(Ease.Flash, colorFlashesCount);
         }
-    }
-
-    private void Move(Vector2 dir)
-    {
-        _rb.velocity = dir * moveSpeed;
     }
 
     private Color GetRandomColor()

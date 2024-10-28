@@ -9,9 +9,11 @@ public class GameManager : MonoBehaviour
     public int requiredCoins = 5;
 
     [SerializeField]
-    private PlayerController _playerReference;
+    private PlayerController _player;
     [SerializeField]
-    private Spawner _spawnerReference;
+    private Spawner _spawner;
+    [SerializeField]
+    private UIController _gameplayUI;
 
     private int _collectedCoins;
     private int _colorChangesRemaining;
@@ -21,32 +23,27 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (_playerReference == null)
+        if (_player == null)
         {
             GameObject player = GameObject.FindWithTag("Player");
             if (player != null)
             {
-                _playerReference = player.GetComponent<PlayerController>();
+                _player = player.GetComponent<PlayerController>();
             }
         }
-        Assert.IsNotNull(_playerReference);
+        Assert.IsNotNull(_player);
 
-        Assert.IsNotNull(_spawnerReference); //todo: find spawner in scene
-        _spawnerReference.newObjectSpawned.AddListener(OnObjectSpawned);
-    }
-    
-    void Update()
-    {
-        if (Input.GetButtonDown("Jump"))
-        {
-            OnColorChange();
-        }
+        Assert.IsNotNull(_spawner); //todo: find spawner in scene
+        _spawner.newObjectSpawned.AddListener(OnObjectSpawned);
+
+        Assert.IsNotNull(_gameplayUI);
+        _gameplayUI.movementRequested.AddListener(OnMovementButtonPressed);
+        _gameplayUI.colorChangeRequested.AddListener(OnColorChanged);
     }
 
     public void OnObjectSpawned(GameObject obj)
     {
-        Coin coin = obj.GetComponent<Coin>();
-        if (coin != null)
+        if (obj.TryGetComponent<Coin>(out var coin))
         {
             coin.pickedUp.AddListener(OnCoinPickedUp);
         }
@@ -63,11 +60,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void OnColorChange()
+    public void OnMovementButtonPressed(Vector2 dir)
+    {
+        _player.Move(dir);
+    }
+
+    public void OnColorChanged()
     {
         if (_colorChangesRemaining > 0)
         {
-            _playerReference.ChangeColor();
+            _player.ChangeColor();
             _colorChangesRemaining--;
         }
         else
@@ -75,5 +77,4 @@ public class GameManager : MonoBehaviour
             Debug.Log("No changes remaining.");
         }
     }
-
 }
