@@ -20,4 +20,9 @@ public class WobbleEffect : MonoBehaviour
             .Append(transform.DORotate(new Vector3(0, 0, 0), stepDuration).SetEase(Ease.InSine))
             .SetLoops(-1);  // Loop indefinitely
     }
+
+    public void StopTweens()
+    {
+        _tweenSequence.Kill();
+    }
 }

@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     private int _collectedCoins;
     private int _colorChangesRemaining;
 
+    private readonly List<GameObject> _spawnedObjects = new(); 
+
     [Header("Events")]
     public UnityEvent gameEnded;
 
@@ -60,16 +62,24 @@ public class GameManager : MonoBehaviour
 
     public void OnObjectSpawned(GameObject obj)
     {
+        _spawnedObjects.Add(obj);
         if (obj.TryGetComponent<Coin>(out var coin))
         {
             coin.pickedUp.AddListener(OnCoinPickedUp);
         }
     }
 
-    public void OnCoinPickedUp()
+    public void OnCoinPickedUp(GameObject obj)
     {
+        if (obj.TryGetComponent<Coin>(out var coin))
+        {
+            coin.pickedUp.RemoveAllListeners();
+        }
+        _spawner.DespawnObject(obj);
+
         _collectedCoins++;
         _colorChangesRemaining++;
+
         Debug.Log($"Coins collected: {_collectedCoins}");
         
         _gameplayUI.SetColorChangeEnabled(true);
@@ -113,7 +123,7 @@ public class GameManager : MonoBehaviour
 
     public void OnGameRestarted()
     {
-        DOTween.KillAll();
+        //DOTween.KillAll();
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

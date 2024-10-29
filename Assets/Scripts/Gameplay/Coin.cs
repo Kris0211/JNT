@@ -4,11 +4,10 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Events;
 using UnityEngine.Assertions;
-using System;
 
 public class Coin : MonoBehaviour
 {
-    public UnityEvent pickedUp;
+    public UnityEvent<GameObject> pickedUp;
 
     [SerializeField]
     private CircleCollider2D _collider;
@@ -27,12 +26,18 @@ public class Coin : MonoBehaviour
         Assert.IsNotNull(_collider);
     }
 
-    void Start()
+    void OnEnable()
     {
+        // Restart tween to play spin animation.
         PlayAnimation();
     }
 
-    public void PlayAnimation()
+    void OnDisable()
+    {
+        _tween?.Kill();
+    }
+
+    private void PlayAnimation()
     {
         transform.localScale = new Vector3(1f, 1f, 1f);
         _tween = transform.DOScaleX(-1, duration)
@@ -45,8 +50,6 @@ public class Coin : MonoBehaviour
         // Only detect Player.
         if (!other.CompareTag("Player")) return;
 
-        _tween.Kill();
-        pickedUp?.Invoke();
-        Destroy(gameObject);
+        pickedUp?.Invoke(gameObject);
     }
 }

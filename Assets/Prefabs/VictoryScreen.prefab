@@ -1009,3 +1009,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _restartButton: {fileID: 8540236351148949139}
   _quitButton: {fileID: 7400586240909692468}
+  _wobblingText: {fileID: 9051654630418416870}

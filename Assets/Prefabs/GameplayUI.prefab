@@ -471,7 +471,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1532809879636127069}
   m_OnClick:
     m_PersistentCalls:
@@ -488,6 +488,7 @@ GameObject:
   - component: {fileID: 3938090528992459264}
   - component: {fileID: 2553705998602439365}
   - component: {fileID: 6530022623959941459}
+  - component: {fileID: 7087946722178920939}
   m_Layer: 5
   m_Name: DownButton
   m_TagString: Untagged
@@ -597,6 +598,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7087946722178920939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3609207482059514213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
 --- !u!1 &3648409210358367012
 GameObject:
   m_ObjectHideFlags: 0
@@ -818,6 +832,7 @@ GameObject:
   - component: {fileID: 4345726571944156770}
   - component: {fileID: 7999427612714018227}
   - component: {fileID: 3077298295609597764}
+  - component: {fileID: 3531699919031514930}
   m_Layer: 5
   m_Name: UpButton
   m_TagString: Untagged
@@ -927,6 +942,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3531699919031514930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5025137944591676290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
 --- !u!1 &6012223344455461893
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,6 +1192,7 @@ GameObject:
   - component: {fileID: 5882375056363394539}
   - component: {fileID: 6669834598245370189}
   - component: {fileID: 5891247258041891381}
+  - component: {fileID: 6454916805456445591}
   m_Layer: 5
   m_Name: LeftButton
   m_TagString: Untagged
@@ -1273,6 +1302,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6454916805456445591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7901090986900156059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
 --- !u!1 &7957219351611123853
 GameObject:
   m_ObjectHideFlags: 0
@@ -1353,6 +1395,7 @@ GameObject:
   - component: {fileID: 6483642679245291715}
   - component: {fileID: 5229206784533936620}
   - component: {fileID: 8968688542492628387}
+  - component: {fileID: 5999697958603135404}
   m_Layer: 5
   m_Name: RightButton
   m_TagString: Untagged
@@ -1462,3 +1505,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5999697958603135404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8933064531841937144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []

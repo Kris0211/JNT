@@ -13,6 +13,8 @@ public class Spawner : MonoBehaviour
     [Header("Spawnable Object")]
     public GameObject objectToSpawn;
     public float objectSize = 0.64f;
+    [SerializeField]
+    private int _poolSize = 10;
 
     [Header("Playable Area")]
     public Tilemap tilemap;
@@ -24,10 +26,13 @@ public class Spawner : MonoBehaviour
     private Vector3 _playableAreaMin = new();
     private Vector3 _playableAreaMax = new();
 
+    private GameObjectPool _goPool;
     public bool ShouldSpawnObjects { private get; set; } = true;
     
     IEnumerator Start()
     {
+        _goPool = new(gameObject, objectToSpawn, _poolSize);
+
         CalculatePlayableArea();
         while(ShouldSpawnObjects) 
         {
@@ -37,6 +42,10 @@ public class Spawner : MonoBehaviour
         }
     }
 
+    public void DespawnObject(GameObject go)
+    {
+        _goPool.ReleaseObject(go);
+    }
 
     private void CalculatePlayableArea()
     {
@@ -60,6 +69,8 @@ public class Spawner : MonoBehaviour
             0
         );
 
-        return Instantiate(objectToSpawn, spawnPos, Quaternion.identity);
+        GameObject spawnedObject = _goPool.GetObject();
+        spawnedObject.transform.position = spawnPos;
+        return spawnedObject;
     }
 } 

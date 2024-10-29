@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.XR.WSA;
 using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
@@ -21,17 +20,6 @@ public class PlayerController : MonoBehaviour
             _rb = GetComponent<Rigidbody2D>();
         }
         Assert.IsNotNull(_rb); // Make sure the component is a part of our GameObject.
-    }
-
-    void Update()
-    {
-        float xDir = Input.GetAxis("Horizontal");
-        float yDir = Input.GetAxis("Vertical");
-        Vector2 dir = new(xDir, yDir);
-        if (dir != Vector2.zero)
-        {
-            Move(dir);
-        }
     }
 
     public void Move(Vector2 dir)
