@@ -92,5 +92,4 @@ public class GameplayUI : MonoBehaviour
         pointerUpEntry.callback.AddListener(data => MovementRequested?.Invoke(Vector2.zero));
         eventTrigger.triggers.Add(pointerUpEntry);
     }
-
 }

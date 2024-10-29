@@ -30,13 +30,19 @@ public class VictoryScreen : MonoBehaviour
 
     private void OnRestartButtonClicked()
     {
-        _wobblingText?.StopTweens();
+        if (_wobblingText != null) // Unity objects should not use null propagation.
+        {
+            _wobblingText.StopTweens();
+        }        
         RestartRequested?.Invoke();
     }
 
     private void OnQuitButtonClicked()
     {
-        _wobblingText?.StopTweens();
+        if (_wobblingText != null)
+        {
+            _wobblingText.StopTweens();
+        }
         GameExited?.Invoke();
     }
 }

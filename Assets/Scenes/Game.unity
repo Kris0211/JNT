@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a710fb27778afbd46bec558e97101e07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredCoins: 5
+  gameplaySettings: {fileID: 11400000, guid: a756cf29e5cb38b48bd69e871e2b16e3, type: 2}
   _player: {fileID: 1267268002}
   _spawner: {fileID: 1320201308}
   _gameplayUI: {fileID: 664189527}

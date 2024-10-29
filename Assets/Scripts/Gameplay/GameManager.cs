@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public int requiredCoins = 5;
+    public GameplaySettings gameplaySettings;
 
     [Header("Object References")]
     [SerializeField]
@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
             }
         }
         Assert.IsNotNull(_spawner);
+        _spawner.spawnDelay = gameplaySettings.coinSpawnInterval;
         _spawner.newObjectSpawned.AddListener(OnObjectSpawned);
 
         if (_gameplayUI == null)
@@ -68,6 +69,8 @@ public class GameManager : MonoBehaviour
         _gameplayUI.MovementRequested += OnMovementButtonPressed;
         _gameplayUI.ColorChangeRequested += OnColorChanged;
         _gameplayUI.PauseGameRequested += OnGamePaused;
+        // Refresh coin counter.
+        _gameplayUI.UpdateCoinCounter(_collectedCoins, gameplaySettings.requiredCoins);
 
         if (_pauseMenu == null)
         {
@@ -120,11 +123,13 @@ public class GameManager : MonoBehaviour
         _collectedCoins++;
         _colorChangesRemaining++;
         
+        int _requiredCoins = gameplaySettings.requiredCoins;
+
         _gameplayUI.SetColorChangeEnabled(true);
-        _gameplayUI.UpdateCoinCounter(_collectedCoins);
+        _gameplayUI.UpdateCoinCounter(_collectedCoins, _requiredCoins);
 
         // Victory condition
-        if (_collectedCoins >= requiredCoins)
+        if (_collectedCoins >= _requiredCoins)
         {
             _isTimerActive = false;
             _spawner.ShouldSpawnObjects = false;
