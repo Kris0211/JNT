@@ -324,7 +324,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1693432871543971162, guid: 47162cf71e451f24899cfbefeb36470c, type: 3}
       propertyPath: colorFlashesCount
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2980728807230030979, guid: 47162cf71e451f24899cfbefeb36470c, type: 3}
       propertyPath: m_GravityScale

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,9 +15,14 @@ public class GameplayUI : MonoBehaviour
     [Space(4)]
     [SerializeField]
     private Button _pauseButton;
-    [Space(8)]
+    [Space(4)]
     [SerializeField]
     private Button _changeColorButton;
+
+    [Space(4)]
+    [SerializeField]
+    private TMP_Text _counterText;
+
     [Header("Movement Buttons")]
     [SerializeField]
     private Button _upButton;
@@ -42,6 +48,16 @@ public class GameplayUI : MonoBehaviour
         {
             _pauseButton.onClick.AddListener(() => PauseGameRequested?.Invoke());
         }
+    }
+
+    public void SetColorChangeEnabled(bool bEnabled)
+    {
+        _changeColorButton.interactable = bEnabled;
+    }
+
+    public void UpdateCoinCounter(int coinCount, int maxCoinCount = 5)
+    {
+        _counterText.text = $"{coinCount}/{maxCoinCount}";
     }
 
     private void SetupDirectionalButton(Button button, Vector2 dir)
@@ -71,8 +87,4 @@ public class GameplayUI : MonoBehaviour
         eventTrigger.triggers.Add(pointerUpEntry);
     }
 
-    public void SetColorChangeEnabled(bool bEnabled)
-    {
-        _changeColorButton.interactable = bEnabled;
-    }
 }

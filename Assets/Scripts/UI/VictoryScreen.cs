@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 public class VictoryScreen : MonoBehaviour
@@ -20,19 +21,22 @@ public class VictoryScreen : MonoBehaviour
 
     void Awake()
     {
+        Assert.IsNotNull(_restartButton);
         _restartButton.onClick.AddListener(OnRestartButtonClicked);
+
+        Assert.IsNotNull(_quitButton);
         _quitButton.onClick.AddListener(OnQuitButtonClicked);
     }
 
     private void OnRestartButtonClicked()
     {
-        _wobblingText.StopTweens();
+        _wobblingText?.StopTweens();
         RestartRequested?.Invoke();
     }
 
     private void OnQuitButtonClicked()
     {
-        _wobblingText.StopTweens();
+        _wobblingText?.StopTweens();
         GameExited?.Invoke();
     }
 }

@@ -42,19 +42,51 @@ public class GameManager : MonoBehaviour
         }
         Assert.IsNotNull(_player);
 
-        Assert.IsNotNull(_spawner); //todo: find spawner in scene
+        if (_spawner == null)
+        {
+            GameObject spawner = GameObject.Find("CoinSpawner");
+            if (spawner != null)
+            {
+                _spawner = spawner.GetComponent<Spawner>();
+            }
+        }
+        Assert.IsNotNull(_spawner);
         _spawner.newObjectSpawned.AddListener(OnObjectSpawned);
 
+        if (_gameplayUI == null)
+        {
+            GameObject ui = GameObject.Find("GameplayUI");
+            if (ui != null)
+            {
+                _gameplayUI = ui.GetComponent<GameplayUI>();
+            }
+        }
         Assert.IsNotNull(_gameplayUI);
         _gameplayUI.MovementRequested += OnMovementButtonPressed;
         _gameplayUI.ColorChangeRequested += OnColorChanged;
         _gameplayUI.PauseGameRequested += OnGamePaused;
 
+        if (_pauseMenu == null)
+        {
+            GameObject pauseMenu = GameObject.Find("PauseUI");
+            if (pauseMenu != null)
+            {
+                _pauseMenu = pauseMenu.GetComponent<PauseMenu>();
+            }
+        }
         Assert.IsNotNull(_pauseMenu);
         _pauseMenu.GameResumed += OnGameResumed;
         _pauseMenu.GameRestarted += OnGameRestarted;
         _pauseMenu.GameQuit += OnGameQuit;
 
+        if (_victoryScreen == null)
+        {
+            GameObject victoryScreen = GameObject.Find("VictoryScreen");
+            if (victoryScreen != null)
+            {
+                _victoryScreen = victoryScreen.GetComponent<VictoryScreen>();
+            }
+        }
         Assert.IsNotNull(_victoryScreen);
         _victoryScreen.RestartRequested += OnGameRestarted;
         _victoryScreen.GameExited += OnGameQuit;
@@ -79,10 +111,9 @@ public class GameManager : MonoBehaviour
 
         _collectedCoins++;
         _colorChangesRemaining++;
-
-        Debug.Log($"Coins collected: {_collectedCoins}");
         
         _gameplayUI.SetColorChangeEnabled(true);
+        _gameplayUI.UpdateCoinCounter(_collectedCoins);
 
         if (_collectedCoins >= requiredCoins)
         {
@@ -123,7 +154,6 @@ public class GameManager : MonoBehaviour
 
     public void OnGameRestarted()
     {
-        //DOTween.KillAll();
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
