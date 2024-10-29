@@ -77,8 +77,9 @@ public class SettingsMenu : MonoBehaviour
     private void SaveSettings()
     {
         string json = JsonUtility.ToJson(_settingsData);
-        using StreamWriter file = new(File.Open(_persistentDataPath, FileMode.OpenOrCreate));
+        using StreamWriter file = new(File.Open(_persistentDataPath, FileMode.Create));
         file.Write(json);
+        file.Flush();
 
         if (_gameplaySettings != null)
         {
