@@ -16,9 +16,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Spawner _spawner;
     [SerializeField]
-    private UIController _gameplayUI;
+    private GameplayUI _gameplayUI;
     [SerializeField]
     private PauseMenu _pauseMenu;
+    [SerializeField]
+    private VictoryScreen _victoryScreen;
 
     private int _collectedCoins;
     private int _colorChangesRemaining;
@@ -50,6 +52,10 @@ public class GameManager : MonoBehaviour
         _pauseMenu.GameResumed += OnGameResumed;
         _pauseMenu.GameRestarted += OnGameRestarted;
         _pauseMenu.GameQuit += OnGameQuit;
+
+        Assert.IsNotNull(_victoryScreen);
+        _victoryScreen.RestartRequested += OnGameRestarted;
+        _victoryScreen.GameExited += OnGameQuit;
     }
 
     public void OnObjectSpawned(GameObject obj)
@@ -64,10 +70,13 @@ public class GameManager : MonoBehaviour
     {
         _collectedCoins++;
         _colorChangesRemaining++;
+        Debug.Log($"Coins collected: {_collectedCoins}");
+        
         _gameplayUI.SetColorChangeEnabled(true);
 
         if (_collectedCoins >= requiredCoins)
         {
+            _spawner.ShouldSpawnObjects = false;
             gameEnded?.Invoke();
         }
     }

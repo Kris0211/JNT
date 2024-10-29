@@ -2,11 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
+public class GameplayUI : MonoBehaviour
 {
     public event Action<Vector2> MovementRequested;
     public event Action ColorChangeRequested;

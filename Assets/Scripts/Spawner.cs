@@ -9,7 +9,6 @@ public class Spawner : MonoBehaviour
 {
     [Space(8)]
     public float spawnDelay = 3f;
-    public bool shouldSpawnObjects = true;
     
     [Header("Spawnable Object")]
     public GameObject objectToSpawn;
@@ -25,17 +24,19 @@ public class Spawner : MonoBehaviour
     private Vector3 _playableAreaMin = new();
     private Vector3 _playableAreaMax = new();
 
-
+    public bool ShouldSpawnObjects { private get; set; } = true;
+    
     IEnumerator Start()
     {
         CalculatePlayableArea();
-        while(shouldSpawnObjects) 
+        while(ShouldSpawnObjects) 
         {
             GameObject spawnedObject = SpawnObject();
             newObjectSpawned?.Invoke(spawnedObject);
             yield return new WaitForSeconds(spawnDelay);
         }
     }
+
 
     private void CalculatePlayableArea()
     {
@@ -60,16 +61,5 @@ public class Spawner : MonoBehaviour
         );
 
         return Instantiate(objectToSpawn, spawnPos, Quaternion.identity);
-    }
-
-    void OnDrawGizmos()
-    {
-        if (tilemap == null) return;
-
-        Gizmos.color = Color.green;
-
-        // Draw the playable area's bounding box
-        Vector3 size = _playableAreaMax - _playableAreaMin;
-        Gizmos.DrawWireCube(_playableAreaMin + size / 2, size);
     }
 } 
