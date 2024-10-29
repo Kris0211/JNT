@@ -1,7 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
@@ -19,8 +18,13 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
+        Assert.IsNotNull(_resumeButton);
         _resumeButton.onClick.AddListener(() => GameResumed?.Invoke());
+
+        Assert.IsNotNull(_restartButton);
         _restartButton.onClick.AddListener(() => GameRestarted?.Invoke());
+
+        Assert.IsNotNull(_quitButton);
         _quitButton.onClick.AddListener(() => GameQuit?.Invoke());
     }
 }

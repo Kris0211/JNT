@@ -11,9 +11,11 @@ public class WobbleEffect : MonoBehaviour
 
     private Sequence _tweenSequence;
 
-    void Start() {
+    void Start() 
+    {
         _tweenSequence = DOTween.Sequence();
         float stepDuration = wobbleDuration / 2f;
+
         _tweenSequence.Append(transform.DORotate(new Vector3(0, 0, wobbleIntensity), stepDuration).SetEase(Ease.OutSine))
             .Append(transform.DORotate(new Vector3(0, 0, 0), stepDuration).SetEase(Ease.InSine))
             .Append(transform.DORotate(new Vector3(0, 0, -wobbleIntensity), stepDuration).SetEase(Ease.OutSine))

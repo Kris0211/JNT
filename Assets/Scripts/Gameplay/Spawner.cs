@@ -8,10 +8,7 @@ using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour
-{   
-    [HideInInspector]
-    public float spawnDelay;
-
+{
     [Header("Spawnable Object")]
     public GameObject objectToSpawn;
     public float objectSize = 0.64f;
@@ -26,6 +23,9 @@ public class Spawner : MonoBehaviour
 
     [Header("Events")]
     public UnityEvent<GameObject> newObjectSpawned;
+       
+    [HideInInspector]
+    public float spawnDelay;
 
     private Vector3 _playableAreaMin = new();
     private Vector3 _playableAreaMax = new();
