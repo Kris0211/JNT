@@ -12,16 +12,15 @@ public class GameplayUI : MonoBehaviour
     public event Action ColorChangeRequested;
     public event Action PauseGameRequested;
 
-    [Space(4)]
     [SerializeField]
     private Button _pauseButton;
-    [Space(4)]
     [SerializeField]
     private Button _changeColorButton;
-
-    [Space(4)]
     [SerializeField]
     private TMP_Text _counterText;
+    [SerializeField]
+    private TMP_Text _timerText;
+
 
     [Header("Movement Buttons")]
     [SerializeField]
@@ -55,9 +54,16 @@ public class GameplayUI : MonoBehaviour
         _changeColorButton.interactable = bEnabled;
     }
 
-    public void UpdateCoinCounter(int coinCount, int maxCoinCount = 5)
+    public void UpdateCoinCounter(int coinCount, int requiredCoinCount = 5)
     {
-        _counterText.text = $"{coinCount}/{maxCoinCount}";
+        _counterText.text = $"{coinCount}/{requiredCoinCount}";
+    }
+
+    public void UpdateTimer(int elapsedTime)
+    {
+        int minutes = Mathf.FloorToInt(elapsedTime / 60);
+        int seconds = Mathf.FloorToInt(elapsedTime % 60);
+        _timerText.text = string.Format("{0}:{1:D2}", minutes, seconds); // Display time in mm:ss format
     }
 
     private void SetupDirectionalButton(Button button, Vector2 dir)
@@ -66,7 +72,7 @@ public class GameplayUI : MonoBehaviour
         
         if (!button.TryGetComponent<EventTrigger>(out var eventTrigger))
         {
-            Debug.Log("No EventTrigger component found, creating new one");
+            Debug.LogWarning("No EventTrigger component found, creating new one");
             eventTrigger = button.gameObject.AddComponent<EventTrigger>();
         }
 

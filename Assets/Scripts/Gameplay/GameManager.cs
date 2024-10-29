@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
     private int _collectedCoins;
     private int _colorChangesRemaining;
 
+    private int _elapsedTime;
+    private bool _isTimerActive = true;
+
     private readonly List<GameObject> _spawnedObjects = new(); 
 
     [Header("Events")]
@@ -92,6 +95,11 @@ public class GameManager : MonoBehaviour
         _victoryScreen.GameExited += OnGameQuit;
     }
 
+    void Start()
+    {
+        StartCoroutine(MeasureTime());
+    }
+
     public void OnObjectSpawned(GameObject obj)
     {
         _spawnedObjects.Add(obj);
@@ -115,8 +123,10 @@ public class GameManager : MonoBehaviour
         _gameplayUI.SetColorChangeEnabled(true);
         _gameplayUI.UpdateCoinCounter(_collectedCoins);
 
+        // Victory condition
         if (_collectedCoins >= requiredCoins)
         {
+            _isTimerActive = false;
             _spawner.ShouldSpawnObjects = false;
             gameEnded?.Invoke();
         }
@@ -162,5 +172,14 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
+    }
+
+    private IEnumerator MeasureTime()
+    {
+        while (_isTimerActive)
+        {
+            yield return new WaitForSeconds(1f);
+            _gameplayUI.UpdateTimer(++_elapsedTime);
+        }
     }
 }
