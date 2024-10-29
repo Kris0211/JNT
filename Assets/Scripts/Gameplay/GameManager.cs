@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
@@ -22,13 +21,13 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private VictoryScreen _victoryScreen;
 
+    private Transform _playerTransform;
+
     private int _collectedCoins;
     private int _colorChangesRemaining;
 
     private int _elapsedTime;
     private bool _isTimerActive = true;
-
-    private readonly List<GameObject> _spawnedObjects = new(); 
 
     [Header("Events")]
     public UnityEvent gameEnded;
@@ -44,6 +43,7 @@ public class GameManager : MonoBehaviour
             }
         }
         Assert.IsNotNull(_player);
+        _playerTransform = _player.transform;
 
         if (_spawner == null)
         {
@@ -105,11 +105,11 @@ public class GameManager : MonoBehaviour
 
     public void OnObjectSpawned(GameObject obj)
     {
-        _spawnedObjects.Add(obj);
         if (obj.TryGetComponent<Coin>(out var coin))
         {
             coin.pickedUp.AddListener(OnCoinPickedUp);
         }
+        _player.targetIndicator.UpdateTarget(FindNearestCoin());
     }
 
     public void OnCoinPickedUp(GameObject obj)
@@ -128,6 +128,8 @@ public class GameManager : MonoBehaviour
         _gameplayUI.SetColorChangeEnabled(true);
         _gameplayUI.UpdateCoinCounter(_collectedCoins, _requiredCoins);
 
+        _player.targetIndicator.UpdateTarget(FindNearestCoin());
+
         // Victory condition
         if (_collectedCoins >= _requiredCoins)
         {
@@ -140,6 +142,7 @@ public class GameManager : MonoBehaviour
     public void OnMovementButtonPressed(Vector2 dir)
     {
         _player.Move(dir);
+        _player.targetIndicator.UpdateTarget(FindNearestCoin());
     }
 
     public void OnColorChanged()
@@ -187,4 +190,37 @@ public class GameManager : MonoBehaviour
             _gameplayUI.UpdateTimer(++_elapsedTime);
         }
     }
+
+    private Transform FindNearestCoin()
+    {
+        List<GameObject> activeCoins = _spawner.GetActiveCoins();
+        if (activeCoins.Count == 0)
+        {
+            return null;
+        }
+        if (activeCoins.Count == 1)
+        { 
+            return activeCoins[0].transform;
+        }
+
+        // If there are 2 or more coins, find nearest one.
+        Transform nearestCoin = null;
+        Vector3 playerPos = _playerTransform.position;
+        float minDistSqrt = Mathf.Infinity;
+
+        foreach (GameObject coin in activeCoins)
+        {
+            if (!coin.activeInHierarchy) continue; // In case we somehow got an inactive coin, skip it.
+
+            float distSqrt = (coin.transform.position - playerPos).sqrMagnitude;
+            if (distSqrt < minDistSqrt)
+            {
+                minDistSqrt = distSqrt;
+                nearestCoin = coin.transform;
+            }
+        }
+
+        return nearestCoin;
+    }
+
 }

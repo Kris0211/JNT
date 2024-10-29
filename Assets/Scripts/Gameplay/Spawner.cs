@@ -8,10 +8,10 @@ using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour
-{
-    [Space(8)]
-    public float spawnDelay = 3f;
-    
+{   
+    [HideInInspector]
+    public float spawnDelay;
+
     [Header("Spawnable Object")]
     public GameObject objectToSpawn;
     public float objectSize = 0.64f;
@@ -68,6 +68,11 @@ public class Spawner : MonoBehaviour
     public void DespawnObject(GameObject go)
     {
         _goPool.ReleaseObject(go);
+    }
+
+    public List<GameObject> GetActiveCoins()
+    {
+        return _goPool.GetActiveObjectsInPool();
     }
 
     private void CalculatePlayableArea()

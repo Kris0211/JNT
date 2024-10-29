@@ -44,6 +44,19 @@ public class GameObjectPool
         go.SetActive(false);
     }
 
+    public List<GameObject> GetActiveObjectsInPool()
+    {
+        List<GameObject> activeObjects = new();
+        foreach (GameObject go in _pool)
+        {
+            if (go.activeInHierarchy)
+            {
+                activeObjects.Add(go);
+            }
+        }
+        return activeObjects;
+    }
+
     private GameObject CreateObject()
     {
         GameObject go = Object.Instantiate(_prefab);
