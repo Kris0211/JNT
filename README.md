@@ -1,4 +1,5 @@
 ## Przegląd
+- UI zaprojektowane z wykorzystaniem uGUI.
 - Poruszanie graczem zrealizowano za pomocą przycisków w UI.
 - Zebranie monety umożliwia jednorazową zmianę koloru. Zebranie większej liczby monet pozwala na dodatkowe zmiany.
 - Dodano licznik czasu oraz zebranych monet.
